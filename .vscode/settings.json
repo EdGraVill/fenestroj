@@ -1,0 +1,7 @@
+{
+  "tslint.autoFixOnSave": true,
+  "eslint.autoFixOnSave": true,
+  "javascript.validate.enable": false,
+  "editor.tabSize": 2,
+  "files.eol": "\n",
+}
