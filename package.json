@@ -1,0 +1,48 @@
+{
+  "name": "panels",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "md5": "^2.2.1",
+    "react": "^16.4.0",
+    "react-contextmenu": "^2.9.2",
+    "react-dom": "^16.4.0",
+    "react-redux": "^5.0.7",
+    "react-scripts-ts": "2.16.0",
+    "redux": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-promise-middleware": "^5.1.1"
+  },
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
+  },
+  "devDependencies": {
+    "@types/jest": "^22.2.3",
+    "@types/md5": "^2.1.32",
+    "@types/node": "^10.1.4",
+    "@types/react": "^16.3.14",
+    "@types/react-dom": "^16.0.5",
+    "@types/react-redux": "^6.0.0",
+    "@types/redux": "^3.6.0",
+    "@types/redux-logger": "^3.0.6",
+    "@types/redux-promise-middleware": "^0.0.10",
+    "jest": "^23.1.0",
+    "tslint": "^5.10.0",
+    "typescript": "^2.8.4"
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EdGraVill/panels.git"
+  },
+  "author": "Eduardo Grajales @EdGraVill",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/EdGraVill/panels/issues"
+  },
+  "homepage": "https://github.com/EdGraVill/panels#readme"
+}
