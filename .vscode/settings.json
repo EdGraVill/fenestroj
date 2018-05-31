@@ -4,4 +4,5 @@
   "javascript.validate.enable": false,
   "editor.tabSize": 2,
   "files.eol": "\n",
+  "eslint.enable": false,
 }

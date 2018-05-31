@@ -1,0 +1,105 @@
+.panel {
+  align-items: stretch;
+  background-color: #efefef;
+  border: 1px solid #ccc;
+  border-radius: .5rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column nowrap;
+  position: absolute;
+}
+
+.panel__header {
+  align-items: center;
+  display: flex;
+  height: 2rem;
+  justify-content: center;
+  user-select: none;
+}
+
+.panel__title {
+  color: #555;
+  font-size: 1rem;
+}
+
+.panel__main {
+  background-color: #fff;
+  border-radius: .5rem;
+  border-top: 1px solid #ccc;
+  box-sizing: border-box;
+  height: 100%;
+  padding: .5rem;
+}
+
+.panel__control {
+  height: 1rem;
+  position: absolute;
+  width: 1rem;
+}
+
+.panel__control--LT {
+  cursor: nw-resize;
+  height: 1.5rem;
+  left: -.75rem;
+  top: -.75rem;
+  width: 1.5rem;
+}
+
+.panel__control--CT {
+  cursor: n-resize;
+  left: .75rem;
+  top: -.5rem;
+  width: calc(100% - 1.5rem);
+}
+
+.panel__control--RT {
+  cursor: ne-resize;
+  height: 1.5rem;
+  right: -.75rem;
+  top: -.75rem;
+  width: 1.5rem;
+}
+
+.panel__control--RC {
+  cursor: e-resize;
+  height: calc(100% - 1.5rem);
+  right: -.5rem;
+  top: .75rem;
+}
+
+.panel__control--RB {
+  cursor: se-resize;
+  bottom: -.75rem;
+  height: 1.5rem;
+  right: -.75rem;
+  width: 1.5rem;
+}
+
+.panel__control--CB {
+  cursor: s-resize;
+  bottom: -.5rem;
+  left: .75rem;
+  width: calc(100% - 1.5rem);
+}
+
+.panel__control--LB {
+  cursor: sw-resize;
+  bottom: -.75rem;
+  height: 1.5rem;
+  left: -.75rem;
+  width: 1.5rem;
+}
+
+.panel__control--LC {
+  cursor: w-resize;
+  height: calc(100% - 1.5rem);
+  left: -.5rem;
+  top: .75rem;
+}
+
+.panel__control--H {
+  height: 1.5rem;
+  left: .5rem;
+  top: .5rem;
+  width: calc(100% - 1rem);
+}
