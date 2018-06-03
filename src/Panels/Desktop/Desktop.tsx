@@ -1,6 +1,6 @@
 import * as md5 from 'md5';
 import * as React from 'react';
-import { ContextMenu, ContextMenuTrigger } from "react-contextmenu";
+import { ContextMenu, ContextMenuTrigger } from 'react-contextmenu';
 
 import { IPanel } from '../@types';
 import './Desktop.css';
@@ -11,18 +11,20 @@ interface IDesktopProps {
 }
 
 class Desktop extends React.Component<IDesktopProps> {
+  public id: string = md5(`${Date.now()}`);
+
+  public componentWillUnmount() {
+    this.props.factoryMode();
+  }
+
   public get contextMenu() {
     return (
       <React.Fragment>
         <ContextMenuTrigger id={md5('null')}>
-          <ContextMenu id={md5('desktop')} />
+          <ContextMenu id={md5(this.id)} />
         </ContextMenuTrigger>
       </React.Fragment>
     );
-  }
-
-  public componentWillUnmount() {
-    this.props.factoryMode();
   }
 
   public render() {

@@ -4,25 +4,23 @@ import {
   IMovePanelParam,
   IPanel,
   IResizePanelParam,
-} from "../@types";
+} from '../@types';
 
 const initialState: IPanel[] = [];
 
 export default (state: IPanel[] = initialState, action: IAction) => {
   const { type, payload } = action;
 
-  const alterValue = (id: string, field: string, value: any): IPanel[] => {
-    return state.map((panel) => {
-      if (panel.id !== id) {
-        return panel;
-      }
+  const alterValue = (id: string, field: string, value: any): IPanel[] => state.map((panel) => {
+    if (panel.id !== id) {
+      return panel;
+    }
 
-      return {
-        ...panel,
-        [field]: value,
-      };
-    });
-  }
+    return {
+      ...panel,
+      [field]: value,
+    };
+  });
 
   if (type === 'FACTORY_MODE') {
     return initialState;
@@ -62,7 +60,7 @@ export default (state: IPanel[] = initialState, action: IAction) => {
     ];
   } else if (type === 'MOVE_PANEL') {
     const { id, left, top }: IMovePanelParam = payload;
-    
+
     return state.map((panel) => {
       if (panel.id !== id) {
         return panel;
@@ -97,12 +95,12 @@ export default (state: IPanel[] = initialState, action: IAction) => {
       };
     });
   } else if (type === 'REMOVE_PANEL') {
-    const id: string = payload
+    const id: string = payload;
 
     return state.reduce((prev, current) => [
       ...prev,
       ...(current.id !== id ? [current] : []),
-    ], [])
+    ], []);
   } else if (type === 'RESIZE_PANEL') {
     const { id, height, width }: IResizePanelParam = payload;
 
@@ -116,7 +114,7 @@ export default (state: IPanel[] = initialState, action: IAction) => {
         height,
         width,
       };
-    })
+    });
   } else if (type === 'START_MOVING_PANEL') {
     const id: string = payload;
 
@@ -147,6 +145,6 @@ export default (state: IPanel[] = initialState, action: IAction) => {
       };
     });
   }
-  
+
   return state;
 };

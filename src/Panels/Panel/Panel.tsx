@@ -4,7 +4,7 @@ import * as React from 'react';
 import {
   IPanel,
   IPanelActions,
-} from "../@types";
+} from '../@types';
 import Control from './Control';
 import './Panel.css';
 
@@ -33,7 +33,7 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
   /**
    * The state will store values who can be mutated many times, keeping the state inside the
    * component itself, prevent unesesary re-renders in the other components.
-   * 
+   *
    * All values starts on zero because when a panel is created take the css sizes writen in
    * css calc string, and after the second render take the integer value from the html element
    */
@@ -118,7 +118,7 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
         top: this.thisPanel.getBoundingClientRect().top,
         width: this.thisPanel.getBoundingClientRect().width,
       });
-      
+
       // If new panel is created, is needed delete unused listeners
       if (this.mouseMoveListener) {
         document.removeEventListener('mousemove', this.mouseMoveListener, false);
@@ -150,7 +150,12 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
     document.removeEventListener('mousemove', this.mouseMoveListener, false);
   }
   // Set initial values
-  public setInitial = ({ height, left, top, width }: IPanelState) => this.setState({
+  public setInitial = ({
+    height,
+    left,
+    top,
+    width,
+  }: IPanelState) => this.setState({
     height,
     left,
     top,
@@ -160,7 +165,7 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
   public getPanel = (): IPanel => {
     const { title, panels } = this.props;
 
-    // This panel to access 
+    // This panel to access
     return panels.find(panel => panel.id === this.id) || {
       active: true,
       height: this.thisPanel.getBoundingClientRect().height,
@@ -193,7 +198,7 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
     startMoving(this.id);
 
     const panel = this.getPanel();
-    
+
     // If panel is back, move to top
     if (panel.position !== panels.length - 1) {
       moveToTop(this.id);
@@ -202,12 +207,12 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
   // Actions when move
   public move = ({ x, y }: { x: number, y: number }, force: boolean = false) => {
     const panel = this.getPanel();
-    
+
     if (force) {
       this.setState({
         left: x,
         top: y,
-      })
+      });
     } else if (panel.moving && this.startMouse) {
       this.setState({
         left: Number(panel.left) + (x - this.startMouse.x),
@@ -217,7 +222,12 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
   }
   // Actions to perform when mouse up referent to moving
   public stopMoving = (event: React.MouseEvent<HTMLDivElement> | MouseEvent) => {
-    const { height, left, top, width } = this.state;
+    const {
+      height,
+      left,
+      top,
+      width,
+    } = this.state;
     const { movePanel, stopMoving } = this.props;
 
     const panel = this.getPanel();
@@ -259,7 +269,7 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
         top: topRB,
       });
     }
-  } 
+  }
 
   public startResizing = (event: React.MouseEvent<HTMLDivElement>) => {
     const {
@@ -278,7 +288,7 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
     startResizing(this.id);
 
     const panel = this.getPanel();
-    
+
     if (panel.position !== panels.length - 1) {
       moveToTop(this.id);
     }
@@ -315,8 +325,10 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
     const panel = this.getPanel();
 
     if (panel.resizing && this.startMouse && this.resizeSide) {
-      const moveIt = ({ left, top }: { left: number, top: number }) => movePanel({ id: this.id, left, top });
-      const resizeIt = ({ height, width }: { height: number, width: number }) => resizePanel({ height, id: this.id, width });
+      const moveIt = ({ left, top }: { left: number, top: number }) =>
+        movePanel({ id: this.id, left, top });
+      const resizeIt = ({ height, width }: { height: number, width: number }) =>
+        resizePanel({ height, id: this.id, width });
 
       const deltaX = this.startMouse.x - x;
       const deltaY = this.startMouse.y - y;
@@ -340,13 +352,15 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
           width: maxWidth && maxWidth < width ? maxWidth : width,
         });
         moveIt({
-          left: maxWidth && maxWidth < width ? Number(panel.left) + (this.startPositions.width - maxWidth) : left,
-          top: maxHeight && maxHeight < height ? Number(panel.top) + (this.startPositions.height - maxHeight) : top,
+          left: maxWidth && maxWidth < width ?
+            Number(panel.left) + (this.startPositions.width - maxWidth) : left,
+          top: maxHeight && maxHeight < height ?
+            Number(panel.top) + (this.startPositions.height - maxHeight) : top,
         });
       } else if (this.resizeSide === 'CT') {
         const height = this.startPositions.height + deltaY >= (minHeight || 300) ?
           this.startPositions.height + deltaY : (minHeight || 300);
-        const width = this.startPositions.width;
+        const { width } = this.startPositions;
         const left = Number(panel.left);
         const top = this.startPositions.height + deltaY >= (minHeight || 300) ?
           Number(panel.top) + yDelta :
@@ -358,7 +372,8 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
         });
         moveIt({
           left,
-          top: maxHeight && maxHeight < height ? Number(panel.top) + (this.startPositions.height - maxHeight) : top,
+          top: maxHeight && maxHeight < height ?
+            Number(panel.top) + (this.startPositions.height - maxHeight) : top,
         });
       } else if (this.resizeSide === 'RT') {
         const height = this.startPositions.height + deltaY >= (minHeight || 300) ?
@@ -376,10 +391,11 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
         });
         moveIt({
           left,
-          top: maxHeight && maxHeight < height ? Number(panel.top) + (this.startPositions.height - maxHeight) : top,
+          top: maxHeight && maxHeight < height ?
+            Number(panel.top) + (this.startPositions.height - maxHeight) : top,
         });
       } else if (this.resizeSide === 'RC') {
-        const height = this.startPositions.height;
+        const { height } = this.startPositions;
         const width = this.startPositions.width - deltaX >= (minWidth || 400) ?
           this.startPositions.width - deltaX : (minWidth || 400);
 
@@ -400,7 +416,7 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
       } else if (this.resizeSide === 'CB') {
         const height = this.startPositions.height - deltaY >= (minHeight || 300) ?
           this.startPositions.height - deltaY : (minHeight || 300);
-        const width = this.startPositions.width;
+        const { width } = this.startPositions;
 
         resizeIt({
           height: maxHeight && maxHeight < height ? maxHeight : height,
@@ -421,11 +437,12 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
           width: maxWidth && maxWidth < width ? maxWidth : width,
         });
         moveIt({
-          left: maxWidth && maxWidth < width ? Number(panel.left) + (this.startPositions.width - maxWidth) : left,
+          left: maxWidth && maxWidth < width ?
+            Number(panel.left) + (this.startPositions.width - maxWidth) : left,
           top,
         });
       } else if (this.resizeSide === 'LC') {
-        const height = this.startPositions.height;
+        const { height } = this.startPositions;
         const width = this.startPositions.width + deltaX >= (minWidth || 400) ?
           this.startPositions.width + deltaX : (minWidth || 400);
         const left = this.startPositions.width + deltaX >= (minWidth || 400) ?
@@ -438,7 +455,8 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
           width: maxWidth && maxWidth < width ? maxWidth : width,
         });
         moveIt({
-          left: maxWidth && maxWidth < width ? Number(panel.left) + (this.startPositions.width - maxWidth) : left,
+          left: maxWidth && maxWidth < width ?
+            Number(panel.left) + (this.startPositions.width - maxWidth) : left,
           top,
         });
       }
@@ -463,7 +481,7 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
     // If click inside the panel, it comes to top
     const moveTop = () => {
       if (panel.position !== panels.length) {
-        moveToTop(this.id)
+        moveToTop(this.id);
       }
     };
     const startMoving = (event: React.MouseEvent<HTMLDivElement>) => this.startMoving(event);
@@ -473,14 +491,17 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
 
     return (
       <div
+        role="button"
+        tabIndex={panel.position}
+        onKeyDown={moveTop}
         className="panel"
         key={this.id}
         onClick={moveTop}
         style={{
-          height: Boolean(height) ? height : panel.height,
-          left: Boolean(left) ? left : panel.left,
-          top: Boolean(top) ? top : panel.top,
-          width: Boolean(width) ? width : panel.width,
+          height: height || panel.height,
+          left: left || panel.left,
+          top: top || panel.top,
+          width: width || panel.width,
           zIndex: (3 * panels.length) + panel.position,
         }}
         ref={(ref) => { if (ref) { this.thisPanel = ref; } }}

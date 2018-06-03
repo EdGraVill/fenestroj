@@ -1,6 +1,6 @@
 import { applyMiddleware, combineReducers, compose, createStore, Store } from 'redux';
 import logger from 'redux-logger';
-import promiseMiddleware from 'redux-promise-middleware'
+import promiseMiddleware from 'redux-promise-middleware';
 
 // Import Reducers
 import { panels } from './Panel';
@@ -29,12 +29,12 @@ export default function configureStore(initialState?: any): Store {
     return createStore(
       reducers,
       initialState,
-      compose(applyMiddleware(...middleware))
+      compose(applyMiddleware(...middleware)),
     );
   }
 
   return createStore(
     reducers,
-    compose(applyMiddleware(...middleware))
+    compose(applyMiddleware(...middleware)),
   );
 }
