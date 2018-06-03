@@ -22,7 +22,21 @@ interface IPanelProps extends IPanelActions {
   panels: IPanel[];
 }
 
-class Panel extends React.Component<IPanelProps> {
+interface IPanelState {
+  height: number;
+  left: number;
+  top: number;
+  width: number;
+}
+
+class Panel extends React.Component<IPanelProps, IPanelState> {
+  public state = {
+    height: 0,
+    left: 0,
+    top: 0,
+    width: 0,
+  }
+
   public id: string = md5(`${Date.now()}+${JSON.stringify(this.props)}`);
   public startPositions: {
     height: number,
@@ -59,15 +73,25 @@ class Panel extends React.Component<IPanelProps> {
   }
 
   public componentDidUpdate(prevProps: IPanelProps) {
-    const { panels } = this.props;
+    const { panels, movePanel } = this.props;
 
     if (panels.length !== prevProps.panels.length) {
-      this.startPositions = {
+      movePanel({
+        id: this.id,
+        left: this.thisPanel.getBoundingClientRect().left,
+        top: this.thisPanel.getBoundingClientRect().top,
+      });
+
+      this.setInitial({
         height: this.thisPanel.getBoundingClientRect().height,
         left: this.thisPanel.getBoundingClientRect().left,
         top: this.thisPanel.getBoundingClientRect().top,
         width: this.thisPanel.getBoundingClientRect().width,
-      };
+      });
+      
+      if (this.mouseMoveListener) {
+        document.removeEventListener('mousemove', this.mouseMoveListener, false);
+      }
 
       this.mouseMoveListener = (event: MouseEvent) => {
         this.move({ x: event.clientX, y: event.clientY });
@@ -76,10 +100,11 @@ class Panel extends React.Component<IPanelProps> {
       
       document.addEventListener('mousemove', this.mouseMoveListener, false);
 
+      
       document.addEventListener('mouseup', (event) => {
         this.stopMoving(event);
         this.stopResizing(event);
-      })
+      });
     }
   }
 
@@ -108,33 +133,37 @@ class Panel extends React.Component<IPanelProps> {
   }
 
   public stopMoving = (event: React.MouseEvent<HTMLDivElement> | MouseEvent) => {
-    const { stopMoving, movePanel } = this.props;
+    const { height, left, top, width } = this.state;
+    const { panels, movePanel, stopMoving } = this.props;
 
-    this.startMouse = {
-      x: event.clientX,
-      y: event.clientY,
-    };
+    const panel = panels.find(pan => pan.id === this.id);
 
-    stopMoving(this.id);
+    if (panel && panel.moving) {
+      stopMoving(this.id);
+    }
 
-    this.startPositions = {
-      height: this.thisPanel.getBoundingClientRect().height,
-      left: this.thisPanel.getBoundingClientRect().left > 0 ? this.thisPanel.getBoundingClientRect().left : 0,
-      top: this.thisPanel.getBoundingClientRect().top > 0 ? this.thisPanel.getBoundingClientRect().top : 0,
-      width: this.thisPanel.getBoundingClientRect().width,
-    };
+    const leftLT = left >= 0 ? left : 0;
+    const topLT = top >= 0 ? top : 0;
+    const leftRB = leftLT >= (document.documentElement.getBoundingClientRect().width - width) ?
+      document.documentElement.getBoundingClientRect().width - width : leftLT;
+    const topRB = topLT >= (document.documentElement.getBoundingClientRect().height - height) ?
+      document.documentElement.getBoundingClientRect().height - height : topLT;
 
-    const left = this.startPositions.left > 0 ? this.startPositions.left : 0;
-    const top = this.startPositions.top > 0 ? this.startPositions.top : 0;
-
-    movePanel({
-      id: this.id,
-      left: left > (document.documentElement.getBoundingClientRect().width - this.startPositions.width) ?
-        document.documentElement.getBoundingClientRect().width - this.startPositions.width : left,
-      top: top > (document.documentElement.getBoundingClientRect().height - this.startPositions.height) ?
-        document.documentElement.getBoundingClientRect().height - this.startPositions.height : top,
-    });
-  }
+    if (leftRB !== left || topRB !== top) {
+      this.move({ x: leftRB, y: topRB }, true);
+      movePanel({
+        id: this.id,
+        left: leftRB,
+        top: topRB,
+      });
+    } else if (panel && (panel.left !== left || panel.top !== top)) {
+      movePanel({
+        id: this.id,
+        left: leftRB,
+        top: topRB,
+      });
+    }
+  } 
 
   public startResizing = (event: React.MouseEvent<HTMLDivElement>) => {
     const {
@@ -179,16 +208,27 @@ class Panel extends React.Component<IPanelProps> {
     };
   }
 
-  public move = ({ x, y }: { x: number, y: number }) => {
-    const { panels, movePanel } = this.props;
+  public setInitial = ({ height, left, top, width }: IPanelState) => this.setState({
+    height,
+    left,
+    top,
+    width,
+  })
+
+  public move = ({ x, y }: { x: number, y: number }, force: boolean = false) => {
+    const { panels } = this.props;
 
     const panel = panels.find(pan => pan.id === this.id);
     
-    if (panel && panel.moving && this.startMouse) {
-      movePanel({
-        id: this.id,
-        left: this.startPositions.left + (x - this.startMouse.x),
-        top: this.startPositions.top + (y - this.startMouse.y),
+    if (force) {
+      this.setState({
+        left: x,
+        top: y,
+      })
+    } else if (panel && panel.moving && this.startMouse) {
+      this.setState({
+        left: Number(panel.left) + (x - this.startMouse.x),
+        top: Number(panel.top) + (y - this.startMouse.y),
       });
     }
   }
@@ -339,6 +379,7 @@ class Panel extends React.Component<IPanelProps> {
 
   public render() {
     const { panels } = this.props;
+    const { height, left, top, width } = this.state;
 
     const panel = panels.find(pan => pan.id === this.id);
 
@@ -358,10 +399,10 @@ class Panel extends React.Component<IPanelProps> {
         key={this.id}
         onClick={moveToTop}
         style={{
-          height: panel.height,
-          left: panel.left,
-          top: panel.top,
-          width: panel.width,
+          height: Boolean(height) ? height : panel.height,
+          left: Boolean(left) ? left : panel.left,
+          top: Boolean(top) ? top : panel.top,
+          width: Boolean(width) ? width : panel.width,
           zIndex: (3 * panels.length) + panel.position,
         }}
         ref={(ref) => { if (ref) { this.thisPanel = ref; } }}
