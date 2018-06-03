@@ -93,7 +93,7 @@ const Control = ({
         onDragStart={noDrag}
       />
     </React.Fragment>
-  )
+  );
 };
 
 export default Control;
