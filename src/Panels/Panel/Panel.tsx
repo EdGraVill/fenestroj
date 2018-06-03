@@ -49,14 +49,6 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
    */
   public id: string = md5(`${Date.now()}+${JSON.stringify(this.props)}`);
   /**
-   * This will be deleted in the next version, cause resizing method also will be changed by the
-   * self value contain method
-   */
-  public startPositions: {
-    height: number,
-    width: number,
-  };
-  /**
    * Store the initial mouse value to calculate the direction. This will be deleted in future
    * versions when tap event be implemented
    */
@@ -187,18 +179,15 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
   // Actions to perform when mouse down inside the panel control referent to moving
   public startMoving = (event: React.MouseEvent<HTMLDivElement>) => {
     const { panels, startMoving, moveToTop } = this.props;
-
     // Set initial mouse position to calculate the relative movement
     this.startMouse = {
       x: event.clientX,
       y: event.clientY,
     };
-
     // Tell the panel to start to move
     startMoving(this.id);
 
     const panel = this.getPanel();
-
     // If panel is back, move to top
     if (panel.position !== panels.length - 1) {
       moveToTop(this.id);
@@ -231,7 +220,6 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
     const { movePanel, stopMoving } = this.props;
 
     const panel = this.getPanel();
-
     // If panel is moving, tell storage to register moving as false
     if (panel.moving) {
       stopMoving(this.id);
@@ -270,196 +258,183 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
       });
     }
   }
-
+  // Actions to perform when mouse down inside the panel control referent to resizing
   public startResizing = (event: React.MouseEvent<HTMLDivElement>) => {
-    const {
-      panels,
-      startResizing,
-      moveToTop,
-    } = this.props;
-
+    const { panels, startResizing, moveToTop } = this.props;
+    // Set initial mouse position to calculate the relative movement
     this.startMouse = {
       x: event.clientX,
       y: event.clientY,
     };
-
+    // Catch the pressed corner
     this.resizeSide = event.currentTarget.className.replace('panel__control panel__control--', '');
-
+    // Tell the panel to start to move
     startResizing(this.id);
 
     const panel = this.getPanel();
-
+    // If panel is back, move to top
     if (panel.position !== panels.length - 1) {
       moveToTop(this.id);
     }
   }
-
-  public stopResizing = (event: React.MouseEvent<HTMLDivElement> | MouseEvent) => {
-    const { stopResizing } = this.props;
-
-    this.resizeSide = undefined;
-
-    this.startMouse = {
-      x: event.clientX,
-      y: event.clientY,
-    };
-
-    stopResizing(this.id);
-
-    this.startPositions = {
-      height: this.thisPanel.getBoundingClientRect().height,
-      width: this.thisPanel.getBoundingClientRect().width,
-    };
-  }
-
+  // Actions when resize
   public resize = ({ x, y }: { x: number, y: number }) => {
     const {
-      resizePanel,
       maxHeight,
       maxWidth,
       minHeight,
       minWidth,
-      movePanel,
     } = this.props;
 
     const panel = this.getPanel();
 
     if (panel.resizing && this.startMouse && this.resizeSide) {
-      const moveIt = ({ left, top }: { left: number, top: number }) =>
-        movePanel({ id: this.id, left, top });
-      const resizeIt = ({ height, width }: { height: number, width: number }) =>
-        resizePanel({ height, id: this.id, width });
-
       const deltaX = this.startMouse.x - x;
       const deltaY = this.startMouse.y - y;
       const xDelta = x - this.startMouse.x;
       const yDelta = y - this.startMouse.y;
 
       if (this.resizeSide === 'LT') {
-        const height = this.startPositions.height + deltaY >= (minHeight || 300) ?
-          this.startPositions.height + deltaY : (minHeight || 300);
-        const width = this.startPositions.width + deltaX >= (minWidth || 400) ?
-          this.startPositions.width + deltaX : (minWidth || 400);
-        const left = this.startPositions.width + deltaX >= (minWidth || 400) ?
+        const height = Number(panel.height) + deltaY >= (minHeight || 300) ?
+          Number(panel.height) + deltaY : (minHeight || 300);
+        const width = Number(panel.width) + deltaX >= (minWidth || 400) ?
+          Number(panel.width) + deltaX : (minWidth || 400);
+        const left = Number(panel.width) + deltaX >= (minWidth || 400) ?
           Number(panel.left) + xDelta :
-          Number(panel.left) + (this.startPositions.width - (minWidth || 400));
-        const top = this.startPositions.height + deltaY >= (minHeight || 300) ?
+          Number(panel.left) + (Number(panel.width) - (minWidth || 400));
+        const top = Number(panel.height) + deltaY >= (minHeight || 300) ?
           Number(panel.top) + yDelta :
-          Number(panel.top) + (this.startPositions.height - (minHeight || 300));
+          Number(panel.top) + (Number(panel.height) - (minHeight || 300));
 
-        resizeIt({
+        this.setState({
           height: maxHeight && maxHeight < height ? maxHeight : height,
-          width: maxWidth && maxWidth < width ? maxWidth : width,
-        });
-        moveIt({
           left: maxWidth && maxWidth < width ?
-            Number(panel.left) + (this.startPositions.width - maxWidth) : left,
+            Number(panel.left) + (Number(panel.width) - maxWidth) : left,
           top: maxHeight && maxHeight < height ?
-            Number(panel.top) + (this.startPositions.height - maxHeight) : top,
+            Number(panel.top) + (Number(panel.height) - maxHeight) : top,
+          width: maxWidth && maxWidth < width ? maxWidth : width,
         });
       } else if (this.resizeSide === 'CT') {
-        const height = this.startPositions.height + deltaY >= (minHeight || 300) ?
-          this.startPositions.height + deltaY : (minHeight || 300);
-        const { width } = this.startPositions;
+        const height = Number(panel.height) + deltaY >= (minHeight || 300) ?
+          Number(panel.height) + deltaY : (minHeight || 300);
+        const width = Number(panel.width);
         const left = Number(panel.left);
-        const top = this.startPositions.height + deltaY >= (minHeight || 300) ?
+        const top = Number(panel.height) + deltaY >= (minHeight || 300) ?
           Number(panel.top) + yDelta :
-          Number(panel.top) + (this.startPositions.height - (minHeight || 300));
+          Number(panel.top) + (Number(panel.height) - (minHeight || 300));
 
-        resizeIt({
+        this.setState({
           height: maxHeight && maxHeight < height ? maxHeight : height,
+          left,
+          top: maxHeight && maxHeight < height ?
+            Number(panel.top) + (Number(panel.height) - maxHeight) : top,
           width,
         });
-        moveIt({
+      } else if (this.resizeSide === 'RT') {
+        const height = Number(panel.height) + deltaY >= (minHeight || 300) ?
+          Number(panel.height) + deltaY : (minHeight || 300);
+        const width = Number(panel.width) - deltaX >= (minWidth || 400) ?
+          Number(panel.width) - deltaX : (minWidth || 400);
+        const left = Number(panel.left);
+        const top = Number(panel.height) + deltaY >= (minHeight || 300) ?
+          Number(panel.top) + yDelta :
+          Number(panel.top) + (Number(panel.height) - (minHeight || 300));
+
+        this.setState({
+          height: maxHeight && maxHeight < height ? maxHeight : height,
           left,
           top: maxHeight && maxHeight < height ?
-            Number(panel.top) + (this.startPositions.height - maxHeight) : top,
-        });
-      } else if (this.resizeSide === 'RT') {
-        const height = this.startPositions.height + deltaY >= (minHeight || 300) ?
-          this.startPositions.height + deltaY : (minHeight || 300);
-        const width = this.startPositions.width - deltaX >= (minWidth || 400) ?
-          this.startPositions.width - deltaX : (minWidth || 400);
-        const left = Number(panel.left);
-        const top = this.startPositions.height + deltaY >= (minHeight || 300) ?
-          Number(panel.top) + yDelta :
-          Number(panel.top) + (this.startPositions.height - (minHeight || 300));
-
-        resizeIt({
-          height: maxHeight && maxHeight < height ? maxHeight : height,
+            Number(panel.top) + (Number(panel.height) - maxHeight) : top,
           width: maxWidth && maxWidth < width ? maxWidth : width,
         });
-        moveIt({
-          left,
-          top: maxHeight && maxHeight < height ?
-            Number(panel.top) + (this.startPositions.height - maxHeight) : top,
-        });
       } else if (this.resizeSide === 'RC') {
-        const { height } = this.startPositions;
-        const width = this.startPositions.width - deltaX >= (minWidth || 400) ?
-          this.startPositions.width - deltaX : (minWidth || 400);
+        const height = Number(panel.height);
+        const width = Number(panel.width) - deltaX >= (minWidth || 400) ?
+          Number(panel.width) - deltaX : (minWidth || 400);
 
-        resizeIt({
+        this.setState({
           height: maxHeight && maxHeight < height ? maxHeight : height,
           width: maxWidth && maxWidth < width ? maxWidth : width,
         });
       } else if (this.resizeSide === 'RB') {
-        const height = this.startPositions.height - deltaY >= (minHeight || 300) ?
-          this.startPositions.height - deltaY : (minHeight || 300);
-        const width = this.startPositions.width - deltaX >= (minWidth || 400) ?
-          this.startPositions.width - deltaX : (minWidth || 400);
+        const height = Number(panel.height) - deltaY >= (minHeight || 300) ?
+          Number(panel.height) - deltaY : (minHeight || 300);
+        const width = Number(panel.width) - deltaX >= (minWidth || 400) ?
+          Number(panel.width) - deltaX : (minWidth || 400);
 
-        resizeIt({
+        this.setState({
           height: maxHeight && maxHeight < height ? maxHeight : height,
           width: maxWidth && maxWidth < width ? maxWidth : width,
         });
       } else if (this.resizeSide === 'CB') {
-        const height = this.startPositions.height - deltaY >= (minHeight || 300) ?
-          this.startPositions.height - deltaY : (minHeight || 300);
-        const { width } = this.startPositions;
+        const height = Number(panel.height) - deltaY >= (minHeight || 300) ?
+          Number(panel.height) - deltaY : (minHeight || 300);
+        const width = Number(panel.width);
 
-        resizeIt({
+        this.setState({
           height: maxHeight && maxHeight < height ? maxHeight : height,
           width: maxWidth && maxWidth < width ? maxWidth : width,
         });
       } else if (this.resizeSide === 'LB') {
-        const height = this.startPositions.height - deltaY >= (minHeight || 300) ?
-          this.startPositions.height - deltaY : (minHeight || 300);
-        const width = this.startPositions.width + deltaX >= (minWidth || 400) ?
-          this.startPositions.width + deltaX : (minWidth || 400);
-        const left = this.startPositions.width + deltaX >= (minWidth || 400) ?
+        const height = Number(panel.height) - deltaY >= (minHeight || 300) ?
+          Number(panel.height) - deltaY : (minHeight || 300);
+        const width = Number(panel.width) + deltaX >= (minWidth || 400) ?
+          Number(panel.width) + deltaX : (minWidth || 400);
+        const left = Number(panel.width) + deltaX >= (minWidth || 400) ?
           Number(panel.left) + xDelta :
-          Number(panel.left) + (this.startPositions.width - (minWidth || 400));
+          Number(panel.left) + (Number(panel.width) - (minWidth || 400));
         const top = Number(panel.top);
 
-        resizeIt({
+        this.setState({
           height: maxHeight && maxHeight < height ? maxHeight : height,
-          width: maxWidth && maxWidth < width ? maxWidth : width,
-        });
-        moveIt({
           left: maxWidth && maxWidth < width ?
-            Number(panel.left) + (this.startPositions.width - maxWidth) : left,
+            Number(panel.left) + (Number(panel.width) - maxWidth) : left,
           top,
+          width: maxWidth && maxWidth < width ? maxWidth : width,
         });
       } else if (this.resizeSide === 'LC') {
-        const { height } = this.startPositions;
-        const width = this.startPositions.width + deltaX >= (minWidth || 400) ?
-          this.startPositions.width + deltaX : (minWidth || 400);
-        const left = this.startPositions.width + deltaX >= (minWidth || 400) ?
+        const height = Number(panel.height);
+        const width = Number(panel.width) + deltaX >= (minWidth || 400) ?
+          Number(panel.width) + deltaX : (minWidth || 400);
+        const left = Number(panel.width) + deltaX >= (minWidth || 400) ?
           Number(panel.left) + xDelta :
-          Number(panel.left) + (this.startPositions.width - (minWidth || 400));
+          Number(panel.left) + (Number(panel.width) - (minWidth || 400));
         const top = Number(panel.top);
 
-        resizeIt({
+        this.setState({
           height,
+          left: maxWidth && maxWidth < width ?
+            Number(panel.left) + (Number(panel.width) - maxWidth) : left,
+          top,
           width: maxWidth && maxWidth < width ? maxWidth : width,
         });
-        moveIt({
-          left: maxWidth && maxWidth < width ?
-            Number(panel.left) + (this.startPositions.width - maxWidth) : left,
-          top,
-        });
       }
+    }
+  }
+  // Actions to perform when mouse up referent to resizing
+  public stopResizing = (event: React.MouseEvent<HTMLDivElement> | MouseEvent) => {
+    const {
+      height,
+      left,
+      top,
+      width,
+    } = this.state;
+    const { stopResizing, movePanel, resizePanel } = this.props;
+    // Reset pressed corner
+    this.resizeSide = undefined;
+
+    const panel = this.getPanel();
+    // If panel is moving, tell storage to register moving as false
+    if (panel.resizing) {
+      stopResizing(this.id);
+    }
+    // If the dimentions has ben changed, register the new values in the reducer
+    if (height !== panel.height || width !== panel.width) {
+      resizePanel({ height, id: this.id, width });
+    }
+    // If the direction has ben changed, register the new values in the reducer
+    if (left !== panel.left || top !== panel.top) {
+      movePanel({ left, id: this.id, top });
     }
   }
 
@@ -480,7 +455,7 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
 
     // If click inside the panel, it comes to top
     const moveTop = () => {
-      if (panel.position !== panels.length) {
+      if (panel.position !== panels.length - 1) {
         moveToTop(this.id);
       }
     };
