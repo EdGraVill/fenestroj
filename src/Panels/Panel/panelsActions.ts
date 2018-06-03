@@ -1,4 +1,4 @@
-import { IAction, IAddPanelParam, IMovePanelParam, IResizePanelParam } from "../@types";
+import { IAction, IAddPanelParam, IMovePanelParam, IResizePanelParam } from '../@types';
 
 export const addPanel = (addPanelParam: IAddPanelParam): IAction => ({
   payload: addPanelParam,

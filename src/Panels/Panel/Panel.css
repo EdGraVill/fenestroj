@@ -103,3 +103,8 @@
   top: .5rem;
   width: calc(100% - 1rem);
 }
+
+div[role=button]:focus,
+div[role=button]:active {
+  outline: none;
+}
