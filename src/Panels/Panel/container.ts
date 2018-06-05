@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 
 import { IAction, IAddPanelParam, IMovePanelParam, IResizePanelParam, IState } from '../@types';
+import Buttons from './Buttons';
 import Panel from './Panel';
 import {
   addPanel,
@@ -12,7 +13,8 @@ import {
   startResizing,
   stopMoving,
   stopResizing,
-  togglePanel,
+  toggleMaximized,
+  toggleMinimized,
 } from './panelsActions';
 
 const PanelContainer = connect((state: IState) => ({
@@ -27,7 +29,13 @@ const PanelContainer = connect((state: IState) => ({
   startResizing: (id: string) => dispatch(startResizing(id)),
   stopMoving: (id: string) => dispatch(stopMoving(id)),
   stopResizing: (id: string) => dispatch(stopResizing(id)),
-  togglePanel: (id: string) => dispatch(togglePanel(id)),
+  toggleMaximized: (id: string) => dispatch(toggleMaximized(id)),
+  toggleMinimized: (id: string) => dispatch(toggleMinimized(id)),
 }))(Panel);
 
 export default PanelContainer;
+
+export const ButtonsContainer = connect(undefined, (dispatch: (action: IAction) => void) => ({
+  toggleMaximized: (id: string) => dispatch(toggleMaximized(id)),
+  toggleMinimized: (id: string) => dispatch(toggleMinimized(id)),
+}))(Buttons);

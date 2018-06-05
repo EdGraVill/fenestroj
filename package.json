@@ -1,6 +1,6 @@
 {
   "name": "panels",
-  "version": "0.2.4",
+  "version": "0.3.1",
   "dependencies": {
     "md5": "^2.2.1",
     "react": "^16.4.0",

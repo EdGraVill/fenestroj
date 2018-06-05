@@ -1,6 +1,7 @@
 import * as md5 from 'md5';
 import * as React from 'react';
 
+import { Buttons, PanelContext } from '.';
 import {
   IPanel,
   IPanelActions,
@@ -167,6 +168,7 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
       },
       id: this.id,
       left: this.thisPanel.getBoundingClientRect().left,
+      maximized: false,
       minimized: false,
       moving: false,
       position: panels.length,
@@ -202,7 +204,7 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
         left: x,
         top: y,
       });
-    } else if (panel.moving && this.startMouse) {
+    } else if (panel.moving && this.startMouse && !panel.maximized) {
       this.setState({
         left: Number(panel.left) + (x - this.startMouse.x),
         top: Number(panel.top) + (y - this.startMouse.y),
@@ -288,7 +290,7 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
 
     const panel = this.getPanel();
 
-    if (panel.resizing && this.startMouse && this.resizeSide) {
+    if (panel.resizing && this.startMouse && this.resizeSide && !panel.maximized) {
       const deltaX = this.startMouse.x - x;
       const deltaY = this.startMouse.y - y;
       const xDelta = x - this.startMouse.x;
@@ -439,7 +441,12 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
   }
 
   public render() {
-    const { panels, moveToTop } = this.props;
+    const {
+      panels,
+      moveToTop,
+      toggleMaximized,
+      toggleMinimized,
+    } = this.props;
     const {
       height,
       left,
@@ -455,7 +462,9 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
 
     // If click inside the panel, it comes to top
     const moveTop = () => {
-      if (panel.position !== panels.length - 1) {
+      if (panel.minimized) {
+        toggleMinimized(this.id);
+      } else if (panel.position !== panels.length - 1) {
         moveToTop(this.id);
       }
     };
@@ -463,13 +472,22 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
     const stopMoving = (event: React.MouseEvent<HTMLDivElement>) => this.stopMoving(event);
     const startResizing = (event: React.MouseEvent<HTMLDivElement>) => this.startResizing(event);
     const stopResizing = (event: React.MouseEvent<HTMLDivElement>) => this.stopResizing(event);
+    const toggleMax = () => toggleMaximized(this.id);
+
+    let situation = '';
+
+    if (panel.minimized) {
+      situation = ' panel--minimized';
+    } else if (panel.maximized) {
+      situation = ' panel--maximized';
+    }
 
     return (
       <div
         role="button"
         tabIndex={panel.position}
         onKeyDown={moveTop}
-        className="panel"
+        className={`panel${situation}`}
         key={this.id}
         onClick={moveTop}
         style={{
@@ -493,7 +511,11 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
           stopMoving={stopMoving}
           startResizing={startResizing}
           stopResizing={stopResizing}
+          toggleMaximized={toggleMax}
         />
+        <PanelContext.Provider value={this.id}>
+          <Buttons />
+        </PanelContext.Provider>
       </div>
     );
   }

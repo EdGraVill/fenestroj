@@ -47,6 +47,7 @@ export default (state: IPanel[] = initialState, action: IAction) => {
         left: typeof left === 'number' ?
           `calc(${left}px + ${state.length}rem)` :
           `calc(${left.replace('calc(', '').replace(')', '')} + ${state.length}rem)`,
+        maximized: false,
         minimized: false,
         moving: false,
         position: state.length,
@@ -131,7 +132,7 @@ export default (state: IPanel[] = initialState, action: IAction) => {
     const id: string = payload;
 
     return alterValue(id, 'resizing', false);
-  } else if (type === 'TOGGLE_PANEL') {
+  } else if (type === 'TOGGLE_MINIMIZED') {
     const id: string = payload;
 
     return state.map((panel) => {
@@ -142,6 +143,19 @@ export default (state: IPanel[] = initialState, action: IAction) => {
       return {
         ...panel,
         minimized: !panel.minimized,
+      };
+    });
+  } else if (type === 'TOGGLE_MAXIMIZED') {
+    const id: string = payload;
+
+    return state.map((panel) => {
+      if (panel.id !== id) {
+        return panel;
+      }
+
+      return {
+        ...panel,
+        maximized: !panel.maximized,
       };
     });
   }

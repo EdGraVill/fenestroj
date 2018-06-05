@@ -1,10 +1,13 @@
 import * as React from 'react';
 
+import './Control.css';
+
 interface IControlProps {
   startMoving: (event: React.MouseEvent<HTMLDivElement>) => void;
   stopMoving: (event: React.MouseEvent<HTMLDivElement>) => void;
   startResizing: (event: React.MouseEvent<HTMLDivElement>) => void;
   stopResizing: (event: React.MouseEvent<HTMLDivElement>) => void;
+  toggleMaximized: () => void;
 }
 
 const Control = ({
@@ -12,6 +15,7 @@ const Control = ({
   stopMoving,
   startResizing,
   stopResizing,
+  toggleMaximized,
 }: IControlProps) => {
   const noDrag = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -27,6 +31,7 @@ const Control = ({
         onMouseDown={startMoving}
         onMouseUp={stopMoving}
         onDragStart={noDrag}
+        onDoubleClick={toggleMaximized}
       />
       <div
         role="button"

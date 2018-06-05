@@ -7,6 +7,7 @@ export interface IPanel {
   id: string;
   title: string;
   active: boolean;
+  maximized: boolean;
   minimized: boolean;
   position: number;
   resizing: boolean;
@@ -58,5 +59,6 @@ export interface IPanelActions {
   startResizing: (id: string) => void;
   stopMoving: (id: string) => void;
   stopResizing: (id: string) => void;
-  togglePanel: (id: string) => void;
+  toggleMinimized: (id: string) => void;
+  toggleMaximized: (id: string) => void;
 }
