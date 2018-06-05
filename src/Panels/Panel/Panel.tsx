@@ -19,6 +19,8 @@ interface IPanelProps extends IPanelActions {
   maxWidth?: number;
   minHeight?: number;
   minWidth?: number;
+  icon?: string;
+  iconTitle?: string;
   title: string;
   panels: IPanel[];
 }
@@ -48,7 +50,7 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
    * Unique id created taking current time and merging json string of the props. This prevent
    * repeat ids
    */
-  public id: string = md5(`${Date.now()}+${JSON.stringify(this.props)}`);
+  public id: string = md5(`${Date.now()}+${JSON.stringify(this.props.panels)}`);
   /**
    * Store the initial mouse value to calculate the direction. This will be deleted in future
    * versions when tap event be implemented
@@ -74,12 +76,16 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
       initialLeft,
       initialTop,
       initialWidth,
+      icon,
+      iconTitle,
       title,
     } = this.props;
 
     // Once the component was mounted is registered in the storage with initial values
     addPanel({
       height: initialHeight || 500,
+      icon,
+      iconTitle,
       id: this.id,
       left: initialLeft || `calc(50% - ${initialWidth || 375}px)`,
       title,
@@ -156,15 +162,21 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
   })
   // Get current panel
   public getPanel = (): IPanel => {
-    const { title, panels } = this.props;
+    const {
+      title,
+      panels,
+      icon,
+      iconTitle,
+    } = this.props;
 
     // This panel to access
     return panels.find(panel => panel.id === this.id) || {
       active: true,
       height: this.thisPanel.getBoundingClientRect().height,
       icon: {
-        id: this.id,
-        title,
+        ref: document.createElement('button'),
+        src: icon,
+        title: iconTitle || title,
       },
       id: this.id,
       left: this.thisPanel.getBoundingClientRect().left,
@@ -491,10 +503,18 @@ class Panel extends React.Component<IPanelProps, IPanelState> {
         key={this.id}
         onClick={moveTop}
         style={{
-          height: height || panel.height,
-          left: left || panel.left,
-          top: top || panel.top,
-          width: width || panel.width,
+          height: panel.minimized ?
+            panel.icon.ref.getBoundingClientRect().height :
+            height || panel.height,
+          left: panel.minimized ?
+            panel.icon.ref.getBoundingClientRect().left :
+            left || panel.left,
+          top: panel.minimized ?
+            panel.icon.ref.getBoundingClientRect().top :
+            top || panel.top,
+          width: panel.minimized ?
+            panel.icon.ref.getBoundingClientRect().width :
+            width || panel.width,
           zIndex: (3 * panels.length) + panel.position,
         }}
         ref={(ref) => { if (ref) { this.thisPanel = ref; } }}

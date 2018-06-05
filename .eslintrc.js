@@ -21,6 +21,7 @@ module.exports = {
     'no-restricted-globals': 'off',
     'no-unused-vars': 'off',
     'react/sort-comp': 'off',
+    'react/jsx-boolean-value': 'off',
   },
   settings: {
     'import/resolver': {

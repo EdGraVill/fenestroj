@@ -1,11 +1,12 @@
 {
   "name": "panels",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "dependencies": {
     "md5": "^2.2.1",
     "react": "^16.4.0",
     "react-contextmenu": "^2.9.2",
     "react-dom": "^16.4.0",
+    "react-iframe": "^1.1.0",
     "react-redux": "^5.0.7",
     "react-scripts-ts": "2.16.0",
     "redux": "^4.0.0",
@@ -49,5 +50,5 @@
   "bugs": {
     "url": "https://github.com/EdGraVill/panels/issues"
   },
-  "homepage": "https://github.com/EdGraVill/panels#readme"
+  "homepage": "."
 }

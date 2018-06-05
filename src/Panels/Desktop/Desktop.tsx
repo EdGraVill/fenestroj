@@ -3,6 +3,7 @@ import * as React from 'react';
 import { ContextMenu, ContextMenuTrigger } from 'react-contextmenu';
 
 import { IPanel } from '../@types';
+import Icons from '../Icons';
 import './Desktop.css';
 
 interface IDesktopProps {
@@ -35,6 +36,7 @@ class Desktop extends React.Component<IDesktopProps> {
             className="desktop"
           >
             {this.props.children}
+            <Icons />
           </div>
         </ContextMenuTrigger>
         {this.contextMenu}

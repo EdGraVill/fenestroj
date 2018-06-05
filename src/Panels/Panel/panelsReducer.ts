@@ -26,6 +26,8 @@ export default (state: IPanel[] = initialState, action: IAction) => {
     return initialState;
   } else if (type === 'ADD_PANEL') {
     const {
+      icon,
+      iconTitle,
       id,
       title,
       left,
@@ -40,8 +42,8 @@ export default (state: IPanel[] = initialState, action: IAction) => {
         active: true,
         height,
         icon: {
-          id,
-          title,
+          src: icon,
+          title: iconTitle || title,
         },
         id,
         left: typeof left === 'number' ?
@@ -156,6 +158,22 @@ export default (state: IPanel[] = initialState, action: IAction) => {
       return {
         ...panel,
         maximized: !panel.maximized,
+      };
+    });
+  } else if (type === 'ADD_ICON_REF') {
+    const { id, ref }: { id: string, ref: HTMLButtonElement } = payload;
+
+    return state.map((panel) => {
+      if (panel.id !== id) {
+        return panel;
+      }
+
+      return {
+        ...panel,
+        icon: {
+          ...panel.icon,
+          ref,
+        },
       };
     });
   }

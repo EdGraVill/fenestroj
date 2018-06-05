@@ -1,6 +1,7 @@
 export interface IIcon {
-  id: string;
+  src?: string;
   title: string;
+  ref: HTMLButtonElement;
 }
 
 export interface IPanel {
@@ -29,6 +30,8 @@ export interface IAction {
 }
 
 export interface IAddPanelParam {
+  icon?: string,
+  iconTitle?: string,
   id: string,
   title: string,
   left: string | number,

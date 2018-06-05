@@ -25,6 +25,8 @@ interface IPanelProps {
   maxWidth?: number;
   minHeight?: number;
   minWidth?: number;
+  icon?: string;
+  iconTitle?: string;
   title: string;
 }
 
