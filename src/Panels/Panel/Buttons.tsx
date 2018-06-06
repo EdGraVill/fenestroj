@@ -13,6 +13,7 @@ const Buttons = ({ toggleMinimized, toggleMaximized }: IPanelActions) => (
       return (
         <div className="panel__buttons">
           <button
+            title="Ocultar"
             className="panel__button panel__button--minimize"
             onClick={toggleMin}
           >
@@ -21,16 +22,12 @@ const Buttons = ({ toggleMinimized, toggleMaximized }: IPanelActions) => (
             </span>
           </button>
           <button
+            title="Expandir"
             className="panel__button panel__button--maximize"
             onClick={toggleMax}
           >
             <span className="panel__buttonPlaceholder">
               ⛶
-            </span>
-          </button>
-          <button className="panel__button panel__button--close">
-            <span className="panel__buttonPlaceholder">
-              x
             </span>
           </button>
         </div>
