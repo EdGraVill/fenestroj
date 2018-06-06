@@ -26,6 +26,8 @@ export default (state: IPanel[] = initialState, action: IAction) => {
     return initialState;
   } else if (type === 'ADD_PANEL') {
     const {
+      icon,
+      iconTitle,
       id,
       title,
       left,
@@ -40,13 +42,14 @@ export default (state: IPanel[] = initialState, action: IAction) => {
         active: true,
         height,
         icon: {
-          id,
-          title,
+          src: icon,
+          title: iconTitle || title,
         },
         id,
         left: typeof left === 'number' ?
           `calc(${left}px + ${state.length}rem)` :
           `calc(${left.replace('calc(', '').replace(')', '')} + ${state.length}rem)`,
+        maximized: false,
         minimized: false,
         moving: false,
         position: state.length,
@@ -131,7 +134,7 @@ export default (state: IPanel[] = initialState, action: IAction) => {
     const id: string = payload;
 
     return alterValue(id, 'resizing', false);
-  } else if (type === 'TOGGLE_PANEL') {
+  } else if (type === 'TOGGLE_MINIMIZED') {
     const id: string = payload;
 
     return state.map((panel) => {
@@ -142,6 +145,35 @@ export default (state: IPanel[] = initialState, action: IAction) => {
       return {
         ...panel,
         minimized: !panel.minimized,
+      };
+    });
+  } else if (type === 'TOGGLE_MAXIMIZED') {
+    const id: string = payload;
+
+    return state.map((panel) => {
+      if (panel.id !== id) {
+        return panel;
+      }
+
+      return {
+        ...panel,
+        maximized: !panel.maximized,
+      };
+    });
+  } else if (type === 'ADD_ICON_REF') {
+    const { id, ref }: { id: string, ref: HTMLButtonElement } = payload;
+
+    return state.map((panel) => {
+      if (panel.id !== id) {
+        return panel;
+      }
+
+      return {
+        ...panel,
+        icon: {
+          ...panel.icon,
+          ref,
+        },
       };
     });
   }

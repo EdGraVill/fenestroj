@@ -1,0 +1,58 @@
+.panel--minimized .panel__buttons {
+  opacity: 0;
+}
+
+.panel__buttons {
+  align-items: center;
+  display: flex;
+  opacity: 1;
+  position: absolute;
+  right: .5rem;
+  top: .5rem;
+  transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+  user-select: none;
+}
+
+.panel__button {
+  align-items: center;
+  background-color: #efefef;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #fff0;
+  display: flex;
+  font-family: monospace;
+  font-size: .8rem;
+  height: 1rem;
+  justify-content: center;
+  margin: 0;
+  margin-right: .5rem;
+  padding: 0;
+  transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+  user-select: none;
+  width: 1rem;
+}
+
+.panel__button:hover {
+  color: #fffa;
+}
+
+.panel__button:focus,
+.panel__button:active {
+  outline: none;
+}
+
+.panel__button--close {
+  background-color: #FF4343;
+  border: 1px solid #A4262C;
+}
+
+.panel__button--maximize {
+  background-color: #FFB900;
+  border: 1px solid #D48C00;
+}
+
+.panel__button--minimize {
+  background-color: #00CC6A;
+  border: 1px solid #10893E;
+}

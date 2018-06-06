@@ -1,6 +1,14 @@
 module.exports = {
   extends: 'airbnb',
   parser: 'typescript-eslint-parser',
+  parserOptions: {
+    ecmaVersion: 6,
+    sourceType: "module",
+    ecmaFeatures: {
+      modules: true,
+      jsx: true
+    }
+  },
   rules: {
     'react/jsx-filename-extension': [1, {
       'extensions': ['.tsx', '.jsx']
@@ -13,6 +21,7 @@ module.exports = {
     'no-restricted-globals': 'off',
     'no-unused-vars': 'off',
     'react/sort-comp': 'off',
+    'react/jsx-boolean-value': 'off',
   },
   settings: {
     'import/resolver': {

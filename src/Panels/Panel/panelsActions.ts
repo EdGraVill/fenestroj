@@ -45,7 +45,12 @@ export const stopResizing = (id: string): IAction => ({
   type: 'STOP_RESIZING_PANEL',
 });
 
-export const togglePanel = (id: string): IAction => ({
+export const toggleMinimized = (id: string): IAction => ({
   payload: id,
-  type: 'TOGGLE_PANEL',
+  type: 'TOGGLE_MINIMIZED',
+});
+
+export const toggleMaximized = (id: string): IAction => ({
+  payload: id,
+  type: 'TOGGLE_MAXIMIZED',
 });
