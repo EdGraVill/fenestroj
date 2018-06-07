@@ -1,9 +1,9 @@
 {
   "name": "fenestroj",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "dependencies": {
     "css-loader": "^0.28.11",
-    "fenestroj": "^0.4.2",
+    "fenestroj": "^0.4.4",
     "md5": "^2.2.1",
     "react": "^16.4.0",
     "react-contextmenu": "^2.9.2",

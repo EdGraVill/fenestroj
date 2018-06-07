@@ -3104,6 +3104,42 @@ fenestroj@^0.4.2:
     redux-promise-middleware "^5.1.1"
     style-loader "^0.21.0"
 
+fenestroj@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/fenestroj/-/fenestroj-0.4.3.tgz#d8714ea27c87efa499bec39b3e4d5766d6eba3a4"
+  dependencies:
+    css-loader "^0.28.11"
+    fenestroj "^0.4.2"
+    md5 "^2.2.1"
+    react "^16.4.0"
+    react-contextmenu "^2.9.2"
+    react-dom "^16.4.0"
+    react-iframe "^1.1.0"
+    react-redux "^5.0.7"
+    react-scripts-ts "2.16.0"
+    redux "^4.0.0"
+    redux-logger "^3.0.6"
+    redux-promise-middleware "^5.1.1"
+    style-loader "^0.21.0"
+
+fenestroj@^0.4.4:
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/fenestroj/-/fenestroj-0.4.4.tgz#de183073fe06238ee4407f218d5d1b5dffd16e3b"
+  dependencies:
+    css-loader "^0.28.11"
+    fenestroj "^0.4.3"
+    md5 "^2.2.1"
+    react "^16.4.0"
+    react-contextmenu "^2.9.2"
+    react-dom "^16.4.0"
+    react-iframe "^1.1.0"
+    react-redux "^5.0.7"
+    react-scripts-ts "2.16.0"
+    redux "^4.0.0"
+    redux-logger "^3.0.6"
+    redux-promise-middleware "^5.1.1"
+    style-loader "^0.21.0"
+
 figures@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/figures/-/figures-2.0.0.tgz#3ab1a2d2a62c8bfb431a0c94cb797a2fce27c962"
