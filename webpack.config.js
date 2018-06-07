@@ -23,7 +23,7 @@ module.exports = {
     }],
   },
   output: {
-    filename: 'panels.js',
+    filename: 'fenestroj.js',
     library: 'fenestroj',
     libraryTarget: 'commonjs2',
     path: path.resolve(__dirname, 'dist'),
