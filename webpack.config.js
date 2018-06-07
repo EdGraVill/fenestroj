@@ -13,8 +13,13 @@ module.exports = {
       test: /\.css$/,
       use: ['style-loader', 'css-loader'],
     }, {
-      loader: 'svg-inline-loader',
       test: /\.svg$/,
+      use: [{
+        loader: 'url-loader',
+        options: {
+          limit: 8192,
+        },
+      }],
     }],
   },
   output: {

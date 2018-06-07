@@ -1,7 +1,7 @@
+import { Fenestro, Fenestroj } from 'fenestroj';
 import * as React from 'react';
 
 import './App.css';
-import { Fenestro, Fenestroj } from './Panels';
 
 const App = () => (
   <div className="App">
