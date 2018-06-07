@@ -1,30 +1,31 @@
 import {
   IAction,
-  IAddPanelParam,
-  IMovePanelParam,
-  IPanel,
-  IResizePanelParam,
+  IAddFenestroParam,
+  IFenestro,
+  IMoveFenestroParam,
+  IResizeFenestroParam,
 } from '../@types';
 
-const initialState: IPanel[] = [];
+const initialState: IFenestro[] = [];
 
-export default (state: IPanel[] = initialState, action: IAction) => {
+export default (state: IFenestro[] = initialState, action: IAction) => {
   const { type, payload } = action;
 
-  const alterValue = (id: string, field: string, value: any): IPanel[] => state.map((panel) => {
-    if (panel.id !== id) {
-      return panel;
-    }
+  const alterValue = (id: string, field: string, value: any): IFenestro[] =>
+    state.map((fenestro) => {
+      if (fenestro.id !== id) {
+        return fenestro;
+      }
 
-    return {
-      ...panel,
-      [field]: value,
-    };
-  });
+      return {
+        ...fenestro,
+        [field]: value,
+      };
+    });
 
   if (type === 'FACTORY_MODE') {
     return initialState;
-  } else if (type === 'ADD_PANEL') {
+  } else if (type === 'ADD_FENESTRO') {
     const {
       icon,
       iconTitle,
@@ -34,7 +35,7 @@ export default (state: IPanel[] = initialState, action: IAction) => {
       top,
       height,
       width,
-    }: IAddPanelParam = payload;
+    }: IAddFenestroParam = payload;
 
     return [
       ...state,
@@ -61,117 +62,118 @@ export default (state: IPanel[] = initialState, action: IAction) => {
         width,
       },
     ];
-  } else if (type === 'MOVE_PANEL') {
-    const { id, left, top }: IMovePanelParam = payload;
+  } else if (type === 'MOVE_FENESTRO') {
+    const { id, left, top }: IMoveFenestroParam = payload;
 
-    return state.map((panel) => {
-      if (panel.id !== id) {
-        return panel;
+    return state.map((fenestro) => {
+      if (fenestro.id !== id) {
+        return fenestro;
       }
 
       return {
-        ...panel,
+        ...fenestro,
         left,
         top,
       };
     });
-  } else if (type === 'MOVE_PANEL_TO_TOP') {
+  } else if (type === 'MOVE_FENESTRO_TO_TOP') {
     const id: string = payload;
 
     if (state.length === 1) {
       return state;
     }
 
-    return state.map((panel) => {
-      const actualPanel = state.find(pan => pan.id === id);
+    return state.map((fenestro) => {
+      const actualFenestro = state.find(pan => pan.id === id);
 
-      if (panel.id !== id && actualPanel) {
+      if (fenestro.id !== id && actualFenestro) {
         return {
-          ...panel,
-          position: panel.position >= actualPanel.position ? panel.position - 1 : panel.position,
+          ...fenestro,
+          position: fenestro.position >= actualFenestro.position ?
+            fenestro.position - 1 : fenestro.position,
         };
       }
 
       return {
-        ...panel,
+        ...fenestro,
         position: state.length - 1,
       };
     });
-  } else if (type === 'REMOVE_PANEL') {
+  } else if (type === 'REMOVE_FENESTRO') {
     const id: string = payload;
 
     return state.reduce((prev, current) => [
       ...prev,
       ...(current.id !== id ? [current] : []),
     ], []);
-  } else if (type === 'RESIZE_PANEL') {
-    const { id, height, width }: IResizePanelParam = payload;
+  } else if (type === 'RESIZE_FENESTRO') {
+    const { id, height, width }: IResizeFenestroParam = payload;
 
-    return state.map((panel) => {
-      if (panel.id !== id) {
-        return panel;
+    return state.map((fenestro) => {
+      if (fenestro.id !== id) {
+        return fenestro;
       }
 
       return {
-        ...panel,
+        ...fenestro,
         height,
         width,
       };
     });
-  } else if (type === 'START_MOVING_PANEL') {
+  } else if (type === 'START_MOVING_FENESTRO') {
     const id: string = payload;
 
     return alterValue(id, 'moving', true);
-  } else if (type === 'START_RESIZING_PANEL') {
+  } else if (type === 'START_RESIZING_FENESTRO') {
     const id: string = payload;
 
     return alterValue(id, 'resizing', true);
-  } else if (type === 'STOP_MOVING_PANEL') {
+  } else if (type === 'STOP_MOVING_FENESTRO') {
     const id: string = payload;
 
     return alterValue(id, 'moving', false);
-  } else if (type === 'STOP_RESIZING_PANEL') {
+  } else if (type === 'STOP_RESIZING_FENESTRO') {
     const id: string = payload;
 
     return alterValue(id, 'resizing', false);
   } else if (type === 'TOGGLE_MINIMIZED') {
     const id: string = payload;
 
-    return state.map((panel) => {
-      if (panel.id !== id) {
-        return panel;
+    return state.map((fenestro) => {
+      if (fenestro.id !== id) {
+        return fenestro;
       }
 
       return {
-        ...panel,
-        minimized: !panel.minimized,
+        ...fenestro,
+        minimized: !fenestro.minimized,
       };
     });
   } else if (type === 'TOGGLE_MAXIMIZED') {
     const id: string = payload;
 
-    return state.map((panel) => {
-      if (panel.id !== id) {
-        return panel;
+    return state.map((fenestro) => {
+      if (fenestro.id !== id) {
+        return fenestro;
       }
 
       return {
-        ...panel,
-        maximized: !panel.maximized,
+        ...fenestro,
+        maximized: !fenestro.maximized,
       };
     });
   } else if (type === 'ADD_ICON_REF') {
     const { id, ref }: { id: string, ref: HTMLButtonElement } = payload;
 
-    return state.map((panel) => {
-      if (panel.id !== id) {
-        return panel;
+    return state.map((fenestro) => {
+      if (fenestro.id !== id) {
+        return fenestro;
       }
 
       return {
-        ...panel,
+        ...fenestro,
         icon: {
-          ...panel.icon,
+          ...fenestro.icon,
           ref,
         },
       };

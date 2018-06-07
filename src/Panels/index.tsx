@@ -2,20 +2,21 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 
 import createStore from './createStore';
-import Desktop from './Desktop';
-import PanelContainer from './Panel';
+import FenestroContainer from './Fenestro';
+import Fenestrojs from './Fenestroj';
+import './index.css';
 
-const Panels = ({ children }: { children: JSX.Element | JSX.Element[] }) => (
+export const Fenestroj = ({ children }: { children: JSX.Element | JSX.Element[] }) => (
   <Provider store={createStore()}>
-    <Desktop>
+    <Fenestrojs>
       {children}
-    </Desktop>
+    </Fenestrojs>
   </Provider>
 );
 
-export default Panels;
+export const Desktop = Fenestroj;
 
-interface IPanelProps {
+interface IFenestroProps {
   backgroundColor?: string;
   initialHeight?: number | string;
   initialLeft?: number | string;
@@ -30,4 +31,6 @@ interface IPanelProps {
   title: string;
 }
 
-export const Panel: React.ComponentClass<IPanelProps> = PanelContainer;
+export const Fenestro: React.ComponentClass<IFenestroProps> = FenestroContainer;
+
+export const Window: React.ComponentClass<IFenestroProps> = Fenestro;

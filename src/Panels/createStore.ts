@@ -3,11 +3,11 @@ import logger from 'redux-logger';
 import promiseMiddleware from 'redux-promise-middleware';
 
 // Import Reducers
-import { panels } from './Panel';
+import { fenestroj } from './Fenestro';
 
 export default function configureStore(initialState?: any): Store {
   const reducers = combineReducers({
-    panels,
+    fenestroj,
   });
 
   const isDevelopment = process.env.NODE_ENV === 'development';

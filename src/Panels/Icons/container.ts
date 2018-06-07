@@ -5,7 +5,7 @@ import Icons from './Icons';
 import { addIconRef, toggleMinimized } from './iconsActions';
 
 export default connect((state: IState) => ({
-  panels: state.panels,
+  fenestroj: state.fenestroj,
 }), (dispatch: (action: IAction) => void) => ({
   addIconRef: (ref: HTMLButtonElement, id: string) => dispatch(addIconRef(ref, id)),
   toggleMinimized: (id: string) => dispatch(toggleMinimized(id)),

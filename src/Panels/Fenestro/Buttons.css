@@ -1,8 +1,8 @@
-.panel--minimized .panel__buttons {
+.fenestro--minimized .fenestro__buttons {
   opacity: 0;
 }
 
-.panel__buttons {
+.fenestro__buttons {
   align-items: center;
   display: flex;
   opacity: 1;
@@ -13,7 +13,7 @@
   user-select: none;
 }
 
-.panel__button {
+.fenestro__button {
   align-items: center;
   background-color: #efefef;
   border: 1px solid #ccc;
@@ -33,26 +33,26 @@
   width: 1rem;
 }
 
-.panel__button:hover {
+.fenestro__button:hover {
   color: #fffa;
 }
 
-.panel__button:focus,
-.panel__button:active {
+.fenestro__button:focus,
+.fenestro__button:active {
   outline: none;
 }
 
-.panel__button--close {
+.fenestro__button--close {
   background-color: #FF4343;
   border: 1px solid #A4262C;
 }
 
-.panel__button--maximize {
+.fenestro__button--maximize {
   background-color: #FFB900;
   border: 1px solid #D48C00;
 }
 
-.panel__button--minimize {
+.fenestro__button--minimize {
   background-color: #00CC6A;
   border: 1px solid #10893E;
 }

@@ -22,6 +22,8 @@ module.exports = {
     'no-unused-vars': 'off',
     'react/sort-comp': 'off',
     'react/jsx-boolean-value': 'off',
+    'react/no-multi-comp': 'off',
+    'react/prefer-stateless-function': 'off',
   },
   settings: {
     'import/resolver': {

@@ -4,7 +4,7 @@ export interface IIcon {
   ref: HTMLButtonElement;
 }
 
-export interface IPanel {
+export interface IFenestro {
   id: string;
   title: string;
   active: boolean;
@@ -21,7 +21,7 @@ export interface IPanel {
 }
 
 export interface IState {
-  panels: IPanel[];
+  fenestroj: IFenestro[];
 }
 
 export interface IAction {
@@ -29,7 +29,7 @@ export interface IAction {
   payload?: any;
 }
 
-export interface IAddPanelParam {
+export interface IAddFenestroParam {
   icon?: string,
   iconTitle?: string,
   id: string,
@@ -40,24 +40,24 @@ export interface IAddPanelParam {
   width: string | number,
 }
 
-export interface IMovePanelParam {
+export interface IMoveFenestroParam {
   id: string;
   left: number;
   top: number;
 }
 
-export interface IResizePanelParam {
+export interface IResizeFenestroParam {
   id: string;
   height: number;
   width: number;
 }
 
-export interface IPanelActions {
-  addPanel: (param: IAddPanelParam) => void;
-  movePanel: (param: IMovePanelParam) => void;
+export interface IFenestroActions {
+  addFenestro: (param: IAddFenestroParam) => void;
+  moveFenestro: (param: IMoveFenestroParam) => void;
   moveToTop: (id: string) => void;
-  removePanel: (id: string) => void;
-  resizePanel: (resizePanelParam: IResizePanelParam) => void;
+  removeFenestro: (id: string) => void;
+  resizeFenestro: (resizeFenestroParam: IResizeFenestroParam) => void;
   startMoving: (id: string) => void;
   startResizing: (id: string) => void;
   stopMoving: (id: string) => void;

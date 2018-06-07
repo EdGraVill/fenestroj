@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { ContextMenuTrigger } from 'react-contextmenu';
 import './Control.css';
 
 interface IControlProps {
@@ -8,6 +9,7 @@ interface IControlProps {
   startResizing: (event: React.MouseEvent<HTMLDivElement>) => void;
   stopResizing: (event: React.MouseEvent<HTMLDivElement>) => void;
   toggleMaximized: () => void;
+  id: string;
 }
 
 const Control = ({
@@ -16,6 +18,7 @@ const Control = ({
   startResizing,
   stopResizing,
   toggleMaximized,
+  id,
 }: IControlProps) => {
   const noDrag = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -23,11 +26,11 @@ const Control = ({
   };
 
   return (
-    <React.Fragment>
+    <ContextMenuTrigger id={id}>
       <div
         role="button"
         tabIndex={-1}
-        className="panel__control panel__control--H"
+        className="fenestro__control fenestro__control--H"
         onMouseDown={startMoving}
         onMouseUp={stopMoving}
         onDragStart={noDrag}
@@ -36,7 +39,7 @@ const Control = ({
       <div
         role="button"
         tabIndex={-1}
-        className="panel__control panel__control--CT"
+        className="fenestro__control fenestro__control--CT"
         onMouseDown={startResizing}
         onMouseUp={stopResizing}
         onDragStart={noDrag}
@@ -44,7 +47,7 @@ const Control = ({
       <div
         role="button"
         tabIndex={-1}
-        className="panel__control panel__control--LT"
+        className="fenestro__control fenestro__control--LT"
         onMouseDown={startResizing}
         onMouseUp={stopResizing}
         onDragStart={noDrag}
@@ -52,7 +55,7 @@ const Control = ({
       <div
         role="button"
         tabIndex={-1}
-        className="panel__control panel__control--RT"
+        className="fenestro__control fenestro__control--RT"
         onMouseDown={startResizing}
         onMouseUp={stopResizing}
         onDragStart={noDrag}
@@ -60,7 +63,7 @@ const Control = ({
       <div
         role="button"
         tabIndex={-1}
-        className="panel__control panel__control--RC"
+        className="fenestro__control fenestro__control--RC"
         onMouseDown={startResizing}
         onMouseUp={stopResizing}
         onDragStart={noDrag}
@@ -68,7 +71,7 @@ const Control = ({
       <div
         role="button"
         tabIndex={-1}
-        className="panel__control panel__control--RB"
+        className="fenestro__control fenestro__control--RB"
         onMouseDown={startResizing}
         onMouseUp={stopResizing}
         onDragStart={noDrag}
@@ -76,7 +79,7 @@ const Control = ({
       <div
         role="button"
         tabIndex={-1}
-        className="panel__control panel__control--CB"
+        className="fenestro__control fenestro__control--CB"
         onMouseDown={startResizing}
         onMouseUp={stopResizing}
         onDragStart={noDrag}
@@ -84,7 +87,7 @@ const Control = ({
       <div
         role="button"
         tabIndex={-1}
-        className="panel__control panel__control--LB"
+        className="fenestro__control fenestro__control--LB"
         onMouseDown={startResizing}
         onMouseUp={stopResizing}
         onDragStart={noDrag}
@@ -92,12 +95,12 @@ const Control = ({
       <div
         role="button"
         tabIndex={-1}
-        className="panel__control panel__control--LC"
+        className="fenestro__control fenestro__control--LC"
         onMouseDown={startResizing}
         onMouseUp={stopResizing}
         onDragStart={noDrag}
       />
-    </React.Fragment>
+    </ContextMenuTrigger>
   );
 };
 

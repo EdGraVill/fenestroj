@@ -1,15 +1,17 @@
+import { Fenestro, Fenestroj } from 'fenestroj';
 import * as React from 'react';
 
-import facebook from './icons/facebook.svg';
-import youtube from './icons/youtube.svg';
-import Panels, { Panel } from './Panels';
+import './App.css';
 
 const App = () => (
   <div className="App">
-    <Panels>
-      <Panel title="YouTube" icon={youtube} />
-      <Panel title="facebook" icon={facebook} />
-    </Panels>
+    <Fenestroj>
+      <Fenestro title="fenestroj">
+        <Fenestroj>
+          <Fenestro title="fenestro" initialHeight={300} initialWidth={400} />
+        </Fenestroj>
+      </Fenestro>
+    </Fenestroj>
   </div>
 );
 
