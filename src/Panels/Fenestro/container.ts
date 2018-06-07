@@ -1,39 +1,41 @@
 import { connect } from 'react-redux';
 
-import { IAction, IAddPanelParam, IMovePanelParam, IResizePanelParam, IState } from '../@types';
+import { IAction, IAddFenestroParam, IMoveFenestroParam, IResizeFenestroParam, IState } from '../@types';
 import Buttons from './Buttons';
-import Panel from './Panel';
+import Fenestro from './Fenestro';
 import {
-  addPanel,
-  movePanel,
+  addFenestro,
+  moveFenestro,
   moveToTop,
-  removePanel,
-  resizePanel,
+  removeFenestro,
+  resizeFenestro,
   startMoving,
   startResizing,
   stopMoving,
   stopResizing,
   toggleMaximized,
   toggleMinimized,
-} from './panelsActions';
+} from './fenestrojActions';
 
-const PanelContainer = connect((state: IState) => ({
-  panels: state.panels,
+const FenestroContainer = connect((state: IState) => ({
+  fenestroj: state.fenestroj,
 }), (dispatch: (action: IAction) => void) => ({
-  addPanel: (addPanelParam: IAddPanelParam) => dispatch(addPanel(addPanelParam)),
-  movePanel: (movePanelParam: IMovePanelParam) => dispatch(movePanel(movePanelParam)),
+  addFenestro: (addFenestroParam: IAddFenestroParam) => dispatch(addFenestro(addFenestroParam)),
+  moveFenestro: (moveFenestroParam: IMoveFenestroParam) =>
+    dispatch(moveFenestro(moveFenestroParam)),
   moveToTop: (id: string) => dispatch(moveToTop(id)),
-  removePanel: (id: string) => dispatch(removePanel(id)),
-  resizePanel: (resizePanelParam: IResizePanelParam) => dispatch(resizePanel(resizePanelParam)),
+  removeFenestro: (id: string) => dispatch(removeFenestro(id)),
+  resizeFenestro: (resizeFenestroParam: IResizeFenestroParam) =>
+    dispatch(resizeFenestro(resizeFenestroParam)),
   startMoving: (id: string) => dispatch(startMoving(id)),
   startResizing: (id: string) => dispatch(startResizing(id)),
   stopMoving: (id: string) => dispatch(stopMoving(id)),
   stopResizing: (id: string) => dispatch(stopResizing(id)),
   toggleMaximized: (id: string) => dispatch(toggleMaximized(id)),
   toggleMinimized: (id: string) => dispatch(toggleMinimized(id)),
-}))(Panel);
+}))(Fenestro);
 
-export default PanelContainer;
+export default FenestroContainer;
 
 export const ButtonsContainer = connect(undefined, (dispatch: (action: IAction) => void) => ({
   toggleMaximized: (id: string) => dispatch(toggleMaximized(id)),

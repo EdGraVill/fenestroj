@@ -1,0 +1,34 @@
+.desktop {
+  box-sizing: border-box;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.desktop > * {
+  height: 100%;
+  width: 100%;
+}
+
+.react-contextmenu {
+  background-color: #fff;
+  border: 1px solid #efefef;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.react-contextmenu>.react-contextmenu-item {
+  cursor: pointer;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: .8rem;
+  padding: .5rem 1rem;
+}
+
+.react-contextmenu>.react-contextmenu-item:hover {
+  background-color: #ccc3;
+}
+
+.react-contextmenu>.react-contextmenu-item:active,
+.react-contextmenu>.react-contextmenu-item:focus {
+  outline: none;
+}

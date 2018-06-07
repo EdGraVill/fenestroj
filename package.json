@@ -1,7 +1,8 @@
 {
-  "name": "panels",
-  "version": "0.3.3",
+  "name": "fenestroj",
+  "version": "0.4.1",
   "dependencies": {
+    "css-loader": "^0.28.11",
     "md5": "^2.2.1",
     "react": "^16.4.0",
     "react-contextmenu": "^2.9.2",
@@ -11,39 +12,46 @@
     "react-scripts-ts": "2.16.0",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
-    "redux-promise-middleware": "^5.1.1"
+    "redux-promise-middleware": "^5.1.1",
+    "style-loader": "^0.21.0"
   },
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "dist": "webpack"
   },
   "devDependencies": {
     "@types/jest": "^22.2.3",
     "@types/md5": "^2.1.32",
-    "@types/node": "^10.1.4",
+    "@types/node": "^10.3.1",
     "@types/react": "^16.3.14",
     "@types/react-dom": "^16.0.5",
     "@types/react-redux": "^6.0.0",
     "@types/redux": "^3.6.0",
     "@types/redux-logger": "^3.0.6",
     "@types/redux-promise-middleware": "^0.0.10",
+    "awesome-typescript-loader": "^5.0.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.8.2",
     "jest": "^23.1.0",
+    "path": "^0.12.7",
+    "svg-inline-loader": "^0.8.0",
     "tslint": "^5.10.0",
     "typescript": "^2.9.1",
-    "typescript-eslint-parser": "^15.0.0"
+    "typescript-eslint-parser": "^16.0.0",
+    "webpack": "^4.11.1",
+    "webpack-cli": "^3.0.3"
   },
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
-  "main": "dist/index.js",
+  "description": "OS like for web",
+  "main": "dist/panels.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EdGraVill/panels.git"
+    "url": "git+https://github.com/EdGraVill/panelsjs.git"
   },
   "author": "Eduardo Grajales @EdGraVill",
   "license": "GPL-3.0",

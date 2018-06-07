@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 
 import { IAction, IState } from '../@types';
-import Desktop from './Desktop';
+import Fenestroj from './Fenestroj';
 
-const DesktopContainer = connect((state: IState) => ({
-  panels: state.panels,
+const FenestrojContainer = connect((state: IState) => ({
+  fenestroj: state.fenestroj,
 }), (dispatch: (action: IAction) => void) => ({
   factoryMode: () => dispatch({ type: 'FACTORY_MODE' }),
-}))(Desktop);
+}))(Fenestroj);
 
-export default DesktopContainer;
+export default FenestrojContainer;

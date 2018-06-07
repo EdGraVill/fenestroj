@@ -1,40 +1,47 @@
 import * as React from 'react';
-import { IPanel } from '../@types';
+import { ContextMenu, ContextMenuTrigger, MenuItem } from 'react-contextmenu';
+import { IFenestro } from '../@types';
 
+import icon from './fenestroj.svg';
 import './Icons.css';
-import icon from './panel.svg';
 
 interface IIconsProps {
-  panels: IPanel[];
+  fenestroj: IFenestro[];
   addIconRef: (ref: HTMLButtonElement, id: string) => void;
   toggleMinimized: (id: string) => void,
 }
 
-const Icons = ({ panels, addIconRef, toggleMinimized }: IIconsProps) => (
+const Icons = ({ fenestroj, addIconRef, toggleMinimized }: IIconsProps) => (
   <div className="icons">
-    {panels.map((panel) => {
-      const onClick = () => toggleMinimized(panel.id);
+    {fenestroj.map((fenestro) => {
+      const onClick = () => toggleMinimized(fenestro.id);
       const ref = (reference: HTMLButtonElement) => {
-        if (reference && !panel.icon.ref) {
-          addIconRef(reference, panel.id);
+        if (reference && !fenestro.icon.ref) {
+          addIconRef(reference, fenestro.id);
         }
       };
 
       return (
-        <button
-          onClick={onClick}
-          className={`icons__icon${panel.minimized ? ' icons__icon--minimized' : ''}`}
-          key={panel.id}
-          ref={ref}
-        >
-          <span
-            className="icons__image"
-            style={{ backgroundImage: `url(${panel.icon.src || icon})` }}
-          />
-          <span className="icons__title">
-            {panel.icon.title}
-          </span>
-        </button>
+        <ContextMenuTrigger id={`IconOf${fenestro.id}`} key={fenestro.id}>
+          <button
+            onClick={onClick}
+            className={`icons__icon${fenestro.minimized ? ' icons__icon--minimized' : ''}`}
+            ref={ref}
+          >
+            <span
+              className="icons__image"
+              style={{ backgroundImage: `url(${fenestro.icon.src || icon})` }}
+            />
+            <span className="icons__title">
+              {fenestro.icon.title}
+            </span>
+          </button>
+          <ContextMenu id={`IconOf${fenestro.id}`} key={fenestro.id}>
+            <MenuItem onClick={onClick}>
+              {fenestro.minimized ? 'Show' : 'Hide'}
+            </MenuItem>
+          </ContextMenu>
+        </ContextMenuTrigger>
       );
     })}
   </div>
